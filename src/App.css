@@ -1,0 +1,32 @@
+#root {
+  max-width: 1280px;
+  margin: 0;
+  padding: 2rem;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+.button {
+  border: none;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  background-color: #333;
+  cursor: pointer;
+}
+
+h3 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.div {
+  display: inline;
+  width: 20px;
+}
