@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { files2 as files } from './files.ts'
+import { files2 as filesArr, type File } from './files.ts'
 import './App.css'
 
 const MARGIN_PX = 20
@@ -14,7 +14,7 @@ const getSlashes = ({ depth }: { depth: number }): JSX.Element[] => {
   return slashesArr
 }
 
-function Entry ({ entry, depth, parent, directory }: { entry: File, depth: number, parent: boolean, directory?: string }): JSX.Element {
+function Entry ({ entry, depth, root, directory }: { entry: File, depth: number, root?: boolean, directory?: string }): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
   const slashesElement = getSlashes({ depth })
   const newDirectory = directory ? directory + `/${entry.name}` : `./${entry.name}` 
@@ -24,19 +24,19 @@ function Entry ({ entry, depth, parent, directory }: { entry: File, depth: numbe
       {newDirectory}
     </div>
     <div>
-      {entry.children 
+      {entry?.children 
         ? <button
-          className='button'
+          className='left-icon'
           onClick={() => { setIsExpanded(prev => !prev) }}>
             <h3>{isExpanded ? '-' : '+'}</h3>
           </button>
-        : <h3 className='button'>Fil</h3>
+        : <h3 className='left-icon'>Fil</h3>
       }
-      {!parent && slashesElement}
+      {!root && slashesElement}
         <span style={{ marginLeft: `${depth * MARGIN_PX}px` }}>{entry.name}</span>
     </div>
-    {isExpanded && 
-      entry.children?.map(entry => <Entry key={entry.name} entry={entry} depth={depth + 1} parent={false} directory={newDirectory} />)
+    {isExpanded && entry?.children && 
+      entry.children.map(entry => <Entry key={entry.name} entry={entry} depth={depth + 1} directory={newDirectory} />)
     }
     </>
   )
@@ -45,7 +45,7 @@ function Entry ({ entry, depth, parent, directory }: { entry: File, depth: numbe
 export default function App(): JSX.Element {
   return (
     <>
-      {files.map(entry => <Entry key={entry.name} entry={entry} depth={1} parent={true} />)}
+      {filesArr.map(entry => <Entry key={entry.name} entry={entry} depth={1} root={true} />)}
     </>
   )
 }
